@@ -7,6 +7,9 @@ import { AppointmentSchema } from '../persistence/documents/appointment.document
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Appointment', schema: AppointmentSchema }])],
   providers: [AppointmentService],
-  controllers: [AppointmentController]
+  controllers: [AppointmentController],
+  exports: [
+    AppointmentService,
+  ]
 })
 export class AppointmentModule { }

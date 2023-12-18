@@ -5,9 +5,11 @@ import { Response } from 'express';
 import { IDeleteResult } from "./base-service.interface";
 
 
-export interface IBaseController<Document> {
+export interface IBaseController<Document, PostDto, PatchDto extends BaseDto> {
 
-    upsert<DTO extends BaseDto>(model: DTO, res: Response): Promise<Response<Document, Record<string, any>>>;
+    post(model: PostDto, res: Response): Promise<Response<Document, Record<string, any>>>;
+
+    patch(model: PatchDto, res: Response): Promise<Response<Document, Record<string, any>>>;
 
     find(id: string, res: Response): Promise<Response<Document, Record<string, any>>>;
 

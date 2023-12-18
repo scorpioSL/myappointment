@@ -28,7 +28,40 @@ export class AppointmentWorkerDto {
     public qualifications?: string[];
 }
 
-export class AppointmentDto extends BaseDto {
+export class AppointmentPostDto {
+    @ApiProperty({ nullable: false })
+    @IsString()
+    @IsNotEmpty()
+    public name: string;
+
+    @ApiProperty({ nullable: false })
+    @IsString()
+    @IsNotEmpty()
+    public contactNumber: string;
+
+    @ApiProperty({ nullable: false })
+    @IsDateString()
+    @IsNotEmpty()
+    public appointmentDateTime: Date;
+
+    @ApiProperty({ nullable: false })
+    @IsNotEmpty()
+    @IsArray()
+    @IsString({ each: true })
+    @ArrayMinSize(1)
+    public services: string[];
+
+    @ApiPropertyOptional({ nullable: true })
+    @IsString()
+    @IsOptional()
+    public status: AppointmentStatusType;
+
+    @ApiProperty({ nullable: false, type: AppointmentWorkerDto })
+    @IsNotEmpty()
+    public worker: AppointmentWorkerDto;
+}
+
+export class AppointmentPatchDto extends BaseDto {
     @ApiProperty({ nullable: false })
     @IsString()
     @IsNotEmpty()

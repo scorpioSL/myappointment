@@ -6,9 +6,11 @@ export interface IDeleteResult {
     deletedCount: number;
 };
 
-export interface IBaseService<Document> {
+export interface IBaseService<Document, PostDTO, PatchDTO extends BaseDto> {
 
-    upsert<DTO extends BaseDto>(model: DTO): Promise<Document>;
+    post(model: PostDTO): Promise<Document>;
+
+    patch(model: PatchDTO): Promise<Document | undefined>;
 
     find(id: string): Promise<Document>;
 

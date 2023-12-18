@@ -4,30 +4,36 @@ import { QueryDto } from "../dto/query.dto";
 import { Model } from "mongoose";
 import { BaseDto } from "../dto/base.dto";
 
-export interface IUpsertValidation {
+export interface IRequestValidation {
     success: boolean,
     status?: HttpStatus,
     message?: HttpException;
 };
 
 @Injectable()
-export abstract class BaseService<Document> implements IBaseService<Document> {
+export abstract class BaseService<Document, PostDTO, PatchDTO extends BaseDto> implements IBaseService<Document, PostDTO, PatchDTO> {
 
     constructor(protected model: Model<Document>) { }
 
-    public async doUpsertValidation<DTO extends BaseDto>(dto: DTO): Promise<IUpsertValidation> {
+    public async doPostValidation(dto: PostDTO): Promise<IRequestValidation> {
         // override this to do custom validations
         return { success: true };
     }
 
-    public async upsert<DTO extends BaseDto>(dto: DTO): Promise<Document> {
-        if (dto.id !== undefined) {
-            const document = await this.model.findOneAndUpdate({ _id: dto.id }, dto, { new: true }).exec();
-            return document;
-        }
+    public async doPatchValidation(dto: PatchDTO): Promise<IRequestValidation> {
+        // override this to do custom validations
+        return { success: true };
+    }
 
+    public async post(dto: PostDTO): Promise<Document> {
         const document = new this.model(dto);
         await document.save();
+        return document;
+    }
+
+    public async patch(dto: PatchDTO): Promise<Document | undefined> {
+        if (!dto.id) return undefined;
+        const document = await this.model.findOneAndUpdate({ _id: dto.id }, dto, { new: true }).exec();
         return document;
     }
 

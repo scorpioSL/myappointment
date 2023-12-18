@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AppointmentModule } from './appointment/appointment.module';
 import { WorkerModule } from './worker/worker.module';
-import { DTOMapperFactory } from './shared/factories/dto-mapper.factory';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -13,12 +13,12 @@ import { DTOMapperFactory } from './shared/factories/dto-mapper.factory';
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
     AppointmentModule,
     WorkerModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
   constructor() {
-    DTOMapperFactory.install();
   }
 }

@@ -6,9 +6,12 @@ import { WorkerSchema } from '../persistence/documents/worker.document';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Worker', schema: WorkerSchema }])
+    MongooseModule.forFeature([{ name: 'Worker', schema: WorkerSchema }]),
   ],
   controllers: [WorkerController],
-  providers: [WorkerService]
+  providers: [WorkerService],
+  exports: [
+    WorkerService,
+  ],
 })
 export class WorkerModule { }

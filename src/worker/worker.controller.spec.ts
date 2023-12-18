@@ -56,7 +56,7 @@ describe('WorkerController', () => {
 
   describe('postWorker', () => {
     it('should return the saved object', async () => {
-      const createdWorkerResponse: Response<Worker> = await controller.upsert(WorkerDtoStub(), mockResponse());
+      const createdWorkerResponse: Response<Worker> = await controller.post(WorkerDtoStub(), mockResponse());
       expect(createdWorkerResponse.get('name')).toBe(WorkerDtoStub().name);
     });
   });
@@ -64,7 +64,7 @@ describe('WorkerController', () => {
   describe('queryWorker', () => {
     it('should return query results', async () => {
       // add data
-      await controller.upsert(WorkerDtoStub(), mockResponse());
+      await controller.post(WorkerDtoStub(), mockResponse());
 
       const queryModel = new QueryDto();
       const queryWorkerResponse = await controller.query(queryModel);

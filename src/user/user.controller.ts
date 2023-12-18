@@ -1,59 +1,58 @@
 import { Controller, Param, Patch, Post, Res, Get, Body } from '@nestjs/common';
-import { Worker } from '../persistence/documents/worker.document';
+import { User } from '../persistence/documents/user.document';
 import { BaseController } from '../shared/controllers/base.controller';
-import { WorkerService } from './worker.service';
-import { WorkderPatchDto, WorkerPostDto } from '../shared/dto/worker.dto';
+import { UserService } from './user.service';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserPatchDto, UserPostDto } from 'src/shared/dto/user.dto';
 import { Response } from 'express';
 import { QueryDto } from 'src/shared/dto/query.dto';
 
-@ApiTags('Worker')
-@Controller('worker')
-export class WorkerController extends BaseController<Worker, WorkerPostDto, WorkderPatchDto, WorkerService> {
+@ApiTags('User')
+@Controller('user')
+export class UserController extends BaseController<User, UserPostDto, UserPatchDto, UserService> {
 
-    constructor(protected readonly workerService: WorkerService) {
-        super(workerService);
+    constructor(protected readonly userService: UserService) {
+        super(userService);
     }
 
     // documentation purpose. In order to show the payload within the swagger
     @Post('')
-    @ApiBody({ type: WorkerPostDto })
-    @ApiResponse({ status: 200, description: 'OK.', type: Worker })
+    @ApiBody({ type: UserPostDto })
+    @ApiResponse({ status: 200, description: 'OK.', type: User })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
     @ApiResponse({ status: 500, description: 'Internal server error.' })
-    public async post(model: WorkerPostDto, @Res() res: Response): Promise<Response<Worker, Record<string, any>>> {
+    public async post(model: UserPostDto, @Res() res: Response): Promise<Response<User, Record<string, any>>> {
         return await super.post(model, res);
     }
 
     // documentation purpose. In order to show the payload within the swagger
     @Patch('')
-    @ApiBody({ type: WorkderPatchDto })
-    @ApiResponse({ status: 200, description: 'OK.', type: Worker })
+    @ApiBody({ type: UserPatchDto })
+    @ApiResponse({ status: 200, description: 'OK.', type: User })
     @ApiResponse({ status: 404, description: 'Not found' })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
     @ApiResponse({ status: 500, description: 'Internal server error.' })
-    public async patch(model: WorkderPatchDto, @Res() res: Response): Promise<Response<Worker, Record<string, any>>> {
+    public async patch(model: UserPatchDto, @Res() res: Response): Promise<Response<User, Record<string, any>>> {
         return await super.post(model, res);
     }
 
     // documentation purpose. In order to show the payload within the swagger
     @Get(':id')
-    @ApiResponse({ status: 200, description: 'OK.', type: Worker })
+    @ApiResponse({ status: 200, description: 'OK.', type: User })
     @ApiResponse({ status: 404, description: 'Not found' })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
     @ApiResponse({ status: 500, description: 'Internal server error.' })
-    public async find(@Param('id') id: string, @Res() res: Response): Promise<Response<Worker, Record<string, any>>> {
+    public async find(@Param('id') id: string, @Res() res: Response): Promise<Response<User, Record<string, any>>> {
         return await super.find(id, res);
     }
 
     // documentation purpose. In order to show the payload within the swagger
     @Post('query')
     @ApiBody({ type: QueryDto })
-    @ApiResponse({ status: 200, description: 'OK.', type: Worker, isArray: true })
+    @ApiResponse({ status: 200, description: 'OK.', type: User, isArray: true })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
     @ApiResponse({ status: 500, description: 'Internal server error.' })
-    public async query(@Body() model: QueryDto): Promise<Worker[]> {
+    public async query(@Body() model: QueryDto): Promise<User[]> {
         return await super.query(model);
     }
-
 }
